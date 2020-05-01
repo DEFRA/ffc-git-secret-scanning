@@ -23,7 +23,7 @@ node {
             else {
                 echo "*** RUNNING HOURLY SCAN ***"
                 // secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 2, "")
-                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "paulsimonandrews", "secret", 2, "")
+                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "paulsimonandrews", "secret", 1)
             }
         } finally {
             if (secretsFound) {
