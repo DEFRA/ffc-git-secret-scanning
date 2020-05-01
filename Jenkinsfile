@@ -5,6 +5,7 @@ node {
 
     checkout scm
     def dockerImgName = "trufflehog"
+    def currentHour = new Date().format("HH")
 
     stage("Build truffleHog docker image") {
         sh "docker build . --tag $dockerImgName"
@@ -14,8 +15,14 @@ node {
         def secretsFound = false
 
         try {
-            secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
-            // secretsFound = secretScanner.scanFullHistory(dockerImgName, "defra", "ffc", false)
+            if (currentHour == "13") {
+                echo "Running daily scan"
+                secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 72)
+            }
+            else {
+                echo "Running hourly scan"
+                secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
+            }
         } finally {
             if (secretsFound) {
                 throw new Exception("Potential secret/s found in scan")
