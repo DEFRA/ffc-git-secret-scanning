@@ -13,7 +13,7 @@ node {
 
         try {
             // secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
-            secretsFound = secretScanner.scanFullHistory(dockerImgName, "defra", "ffc-ce")
+            secretsFound = secretScanner.scanFullHistory(dockerImgName, "defra", "ffc-ce-web", false)
         } finally {
             if (secretsFound) {
                 throw new Exception("Potential secret/s found in scan")
