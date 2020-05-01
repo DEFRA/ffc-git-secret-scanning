@@ -1,7 +1,7 @@
 @Library('defra-library@psd-617-secret-scanner') _
 
 node {
-    properties([pipelineTriggers([cron('0 * * * *')])])
+    properties([pipelineTriggers([cron('10 * * * *')])])
 
     checkout scm
     def dockerImgName = "trufflehog"
