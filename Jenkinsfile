@@ -1,6 +1,8 @@
 @Library('defra-library@psd-617-secret-scanner') _
 
 node {
+    properties([pipelineTriggers([cron('0 * * * *')])])
+
     checkout scm
     def dockerImgName = "trufflehog"
 
@@ -12,8 +14,8 @@ node {
         def secretsFound = false
 
         try {
-            // secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
-            secretsFound = secretScanner.scanFullHistory(dockerImgName, "defra", "ffc", false)
+            secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
+            // secretsFound = secretScanner.scanFullHistory(dockerImgName, "defra", "ffc", false)
         } finally {
             if (secretsFound) {
                 throw new Exception("Potential secret/s found in scan")
