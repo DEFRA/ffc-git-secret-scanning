@@ -6,7 +6,7 @@ node {
 
     stage("Build truffleHog docker image") {
         dockerImg = docker.build "trufflehog"
-        dockerImg.run()
+        dockerImg.run "--json --regex https://github.com/paulsimonandrews/secret-scanner-dummy.git"
     }
 
     // stage("Run secret scanner") {
