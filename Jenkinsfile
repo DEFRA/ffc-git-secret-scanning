@@ -4,6 +4,7 @@ node {
     properties([pipelineTriggers([cron('10 * * * *')])])
 
     checkout scm
+
     def dockerImgName = "trufflehog"
     def currentHour = new Date().format("HH")
 
@@ -15,13 +16,13 @@ node {
         def secretsFound = false
 
         try {
-            if (currentHour == "13") {
-                echo "Running daily scan"
-                secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 72)
+            if (currentHour == "23") {
+                echo "*** RUNNING DAILY SCAN ***"
+                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 72, "#secretdetection")
             }
             else {
-                echo "Running hourly scan"
-                secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
+                echo "*** RUNNING HOURLY SCAN ***"
+                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 2, "")
             }
         } finally {
             if (secretsFound) {
