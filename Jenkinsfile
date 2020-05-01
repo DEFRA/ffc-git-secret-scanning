@@ -18,7 +18,7 @@ node {
         try {
             if (currentHour == "23") {
                 echo "*** RUNNING DAILY SCAN ***"
-                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 72, "#secretdetection")
+                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 25, "#secretdetection")
             }
             else {
                 echo "*** RUNNING HOURLY SCAN ***"
