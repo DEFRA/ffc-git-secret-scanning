@@ -2,22 +2,21 @@
 
 node {
     checkout scm
-    def dockerImg
+    def dockerImgName = "trufflehog"
 
     stage("Build truffleHog docker image") {
-        dockerImg = docker.build "trufflehog"
-        dockerImg.run "--json --regex https://github.com/paulsimonandrews/secret-scanner-dummy.git"
+        sh "docker build . --tag $dockerImgName"
     }
 
-    // stage("Run secret scanner") {
-    //     def secretsFound = false
+    stage("Run secret scanner") {
+        def secretsFound = false
 
-    //     try {
-    //         secretsFound = secretScanner.scanWithinWindow('defra', 'ffc-ce', 2)
-    //     } finally {
-    //         if (secretsFound) {
-    //             throw new Exception("Potential secret/s found in scan")
-    //         }
-    //     }
-    // }
+        try {
+            secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc-ce", 2)
+        } finally {
+            if (secretsFound) {
+                throw new Exception("Potential secret/s found in scan")
+            }
+        }
+    }
 }
