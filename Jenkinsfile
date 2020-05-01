@@ -12,7 +12,8 @@ node {
         def secretsFound = false
 
         try {
-            secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc-ce", 2)
+            // secretsFound = secretScanner.scanWithinWindow(dockerImgName, "defra", "ffc", 2)
+            secretsFound = secretScanner.scanFullHistory(dockerImgName, "defra", "ffc-ce")
         } finally {
             if (secretsFound) {
                 throw new Exception("Potential secret/s found in scan")
