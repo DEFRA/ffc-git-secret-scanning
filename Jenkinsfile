@@ -15,7 +15,7 @@ node {
 
     stage("Read exclude strings file") {
         def fileContent = readFile "exclude-strings.txt"
-        fileContent.split().each { excludeStrings.trim().add(it) }
+        fileContent.split().each { excludeStrings.add(it) }
 
         echo "EXCLUDE STRINGS = $excludeStrings"
     }
