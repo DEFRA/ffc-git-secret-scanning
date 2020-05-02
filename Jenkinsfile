@@ -1,7 +1,7 @@
 @Library('defra-library@psd-617-secret-scanner') _
 
 node {
-    properties([pipelineTriggers([cron('0 * * * *')])])
+    properties([pipelineTriggers([cron('0 */2 * * *')])])
 
     checkout scm
 
@@ -16,9 +16,9 @@ node {
         def secretsFound = false
 
         try {
-            if (currentHour == "23") {
+            if (currentHour == "02") {
                 echo "*** RUNNING DAILY SCAN ***"
-                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 25, "#secretdetection")
+                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 24, "#secretdetection")
             }
             else {
                 echo "*** RUNNING HOURLY SCAN ***"
