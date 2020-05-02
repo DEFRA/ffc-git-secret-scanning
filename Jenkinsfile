@@ -7,9 +7,17 @@ node {
 
     def dockerImgName = "trufflehog"
     def currentHour = new Date().format("HH")
+    def excludeStrings = []
 
     stage("Build truffleHog docker image") {
         sh "docker build . --tag $dockerImgName"
+    }
+
+    stage("Read exclude strings file") {
+        def fileContent = readFile "exclude-strings.txt"
+        fileContent.split().each { excludeStrings.add(it) }
+
+        echo "EXCLUDE STRINGS = $excludeStrings"
     }
 
     stage("Run secret scanner") {
@@ -18,11 +26,27 @@ node {
         try {
             if (currentHour == "02") {
                 echo "*** RUNNING DAILY SCAN ***"
-                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 24, "#secretdetection")
+                secretsFound = secretScanner.scanWithinWindow(
+                    'github-auth-token',
+                    dockerImgName,
+                    "defra",
+                    "ffc",
+                    24,
+                    excludeStrings,
+                    "#secretdetection"
+                )
             }
             else {
                 echo "*** RUNNING HOURLY SCAN ***"
-                secretsFound = secretScanner.scanWithinWindow('github-auth-token', dockerImgName, "defra", "ffc", 2, "#secretdetection")
+                secretsFound = secretScanner.scanWithinWindow(
+                    'github-auth-token',
+                    dockerImgName,
+                    "defra",
+                    "ffc",
+                    2,
+                    excludeStrings,
+                    "#secretdetection"
+                )
             }
         } finally {
             if (secretsFound) {
