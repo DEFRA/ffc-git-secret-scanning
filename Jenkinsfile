@@ -1,4 +1,4 @@
-@Library('defra-library@psd-617-secret-scanner') _
+@Library('defra-library@4') _
 
 node {
     properties([pipelineTriggers([cron('0 */2 * * *')])])
