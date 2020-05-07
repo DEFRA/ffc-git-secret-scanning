@@ -1,4 +1,4 @@
-@Library('defra-library@4') _
+@Library('defra-library@5') _
 
 node {
     properties([pipelineTriggers([cron('0 */2 * * *')])])
