@@ -38,6 +38,14 @@ node {
             }
             else {
                 echo "*** RUNNING HOURLY SCAN ***"
+                secretsFound = secretScanner.scanFullHistory(
+                    'github-auth-token',
+                    dockerImgName,
+                    "defra",
+                    "ffc-jenkins",
+                    excludeStrings
+                  )
+
                 secretsFound = secretScanner.scanWithinWindow(
                     'github-auth-token',
                     dockerImgName,
