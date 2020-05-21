@@ -42,7 +42,7 @@ node {
                     'github-auth-token',
                     dockerImgName,
                     "defra",
-                    "ffc",
+                    "ffc-jenkins",
                     2,
                     excludeStrings,
                     "#secretdetection"
