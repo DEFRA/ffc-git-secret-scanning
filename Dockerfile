@@ -1,4 +1,4 @@
-FROM python:3.8-alpine
+FROM python:3.8-alpine3.12
 
 RUN apk update && \
     apk add --no-cache git=~2.26
