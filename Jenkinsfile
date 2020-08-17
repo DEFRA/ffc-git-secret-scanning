@@ -1,27 +1,28 @@
-@Library('defra-library@v-6') _
+@Library('defra-library@v-8') _
 
 node {
     properties([pipelineTriggers([cron('0 */2 * * *')])])
 
     checkout scm
 
-    def dockerImgName = "trufflehog"
-    def currentHour = new Date().format("HH")
-    def excludeStrings = []
+    dockerImgName = "trufflehog"
+    currentHour = new Date().format("HH")
+    excludeStrings = []
 
     stage("Build truffleHog docker image") {
         sh "docker build . --tag $dockerImgName"
     }
 
     stage("Read exclude strings file") {
-        def fileContent = readFile "exclude-strings.txt"
+        fileContent = readFile "exclude-strings.txt"
         fileContent.split().each { excludeStrings.add(it) }
 
         echo "EXCLUDE STRINGS = $excludeStrings"
     }
 
     stage("Run secret scanner") {
-        def secretsFound = false
+        secretsFound = false
+        prefix = 'ffc-'
 
         try {
             if (currentHour == "02") {
@@ -30,7 +31,7 @@ node {
                     'github-auth-token',
                     dockerImgName,
                     "defra",
-                    "ffc",
+                    prefix,
                     24,
                     excludeStrings,
                     "#secretdetection"
@@ -42,7 +43,7 @@ node {
                     'github-auth-token',
                     dockerImgName,
                     "defra",
-                    "ffc",
+                    prefix,
                     2,
                     excludeStrings,
                     "#secretdetection"
