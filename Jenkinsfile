@@ -1,4 +1,4 @@
-@Library('defra-library@v-8') _
+@Library('defra-library@psd-994-add-certs-for-secret-scan') _
 
 node {
     properties([pipelineTriggers([cron('0 */2 * * *')])])
