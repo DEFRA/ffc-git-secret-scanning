@@ -34,7 +34,7 @@ node {
                     prefix,
                     24,
                     excludeStrings,
-                    "#mainbuildfailures"
+                    "#secretdetection"
                 )
             }
             else {
@@ -46,7 +46,7 @@ node {
                     prefix,
                     2,
                     excludeStrings,
-                    "#mainbuildfailures"
+                    "#secretdetection"
                 )
             }
         } finally {
