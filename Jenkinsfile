@@ -1,4 +1,4 @@
-@Library('defra-library@fix-secret-scanning') _
+@Library('defra-library@v-9') _
 
 node {
     properties([pipelineTriggers([cron('0 */2 * * *')])])
