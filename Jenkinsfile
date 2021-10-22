@@ -34,7 +34,7 @@ node {
                     prefix,
                     24,
                     excludeStrings,
-                    "#secretdetection"
+                    "secretdetection"
                 )
             }
             else {
@@ -46,7 +46,7 @@ node {
                     prefix,
                     2,
                     excludeStrings,
-                    "#secretdetection"
+                    "secretdetection"
                 )
             }
         } finally {
