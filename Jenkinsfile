@@ -1,7 +1,7 @@
 @Library('defra-library@v-9') _
 
 node {
-    properties([pipelineTriggers([cron('0 */2 * * *')])])
+    properties([pipelineTriggers([cron('0 8-22/2 * * *')])])
 
     checkout scm
 
