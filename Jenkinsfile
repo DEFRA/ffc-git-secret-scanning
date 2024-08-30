@@ -22,7 +22,8 @@ node {
 
     stage("Run secret scanner") {
         secretsFound = false
-        prefix = 'ffc-'
+        ffcPrefix = 'ffc-'
+        fcpPrefix = 'fcp-'
 
         try {
             if (currentHour == "02") {
@@ -31,7 +32,16 @@ node {
                     'github-auth-token',
                     dockerImgName,
                     "defra",
-                    prefix,
+                    ffcPrefix,
+                    24,
+                    excludeStrings,
+                    "secretdetection"
+                )
+                secretsFound = secretScanner.scanWithinWindow(
+                    'github-auth-token',
+                    dockerImgName,
+                    "defra",
+                    fcpPrefix,
                     24,
                     excludeStrings,
                     "secretdetection"
@@ -43,7 +53,16 @@ node {
                     'github-auth-token',
                     dockerImgName,
                     "defra",
-                    prefix,
+                    ffcPrefix,
+                    2,
+                    excludeStrings,
+                    "secretdetection"
+                )
+                secretsFound = secretScanner.scanWithinWindow(
+                    'github-auth-token',
+                    dockerImgName,
+                    "defra",
+                    fcpPrefix,
                     2,
                     excludeStrings,
                     "secretdetection"
