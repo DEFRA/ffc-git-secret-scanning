@@ -46,27 +46,7 @@ node {
                     excludeStrings,
                     "secretdetection"
                 )
-            }
-            else {
-                echo "*** RUNNING HOURLY SCAN ***"
-                secretsFound = secretScanner.scanWithinWindow(
-                    'github-auth-token',
-                    dockerImgName,
-                    "defra",
-                    ffcPrefix,
-                    2,
-                    excludeStrings,
-                    "secretdetection"
-                )
-                secretsFound = secretScanner.scanWithinWindow(
-                    'github-auth-token',
-                    dockerImgName,
-                    "defra",
-                    fcpPrefix,
-                    2,
-                    excludeStrings,
-                    "secretdetection"
-                )
+              }
             }
         } finally {
             if (secretsFound) {
